@@ -97,6 +97,7 @@ public class NFTMintingController {
                 @Override
                 public void onError(Exception ex) {
                     System.out.println("NFT error: " + ex.getMessage());
+                    ex.printStackTrace();
                 }
             });
         } catch (Exception e) {

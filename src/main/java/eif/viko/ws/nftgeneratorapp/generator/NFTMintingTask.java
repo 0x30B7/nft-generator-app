@@ -75,7 +75,7 @@ public class NFTMintingTask implements Runnable {
                     step.onProcess(layerImage);
                     stepIndex++;
                 } catch (Exception ex) {
-                    callback.onError(new Exception("Could not perform layer processor step for image id '" + orderedLayer.getImageId() + "', step " + stepIndex));
+                    callback.onError(new Exception("Could not perform layer processor step for image id '" + orderedLayer.getImageId() + "', step " + stepIndex, ex));
                     return;
                 }
             }
