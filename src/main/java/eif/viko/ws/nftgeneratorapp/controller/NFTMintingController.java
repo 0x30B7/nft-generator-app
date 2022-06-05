@@ -39,6 +39,9 @@ import java.util.Optional;
 import java.util.Queue;
 import java.util.UUID;
 
+/**
+ * Class containing endpoint for the <b>/api/v1/nft</b> endpoint subset
+ */
 @RestController
 @RequestMapping("/api/v1/nft")
 public class NFTMintingController {

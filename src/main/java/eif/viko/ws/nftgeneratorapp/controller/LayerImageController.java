@@ -25,6 +25,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * Class containing endpoint for the <b>/api/v1/layer-image</b> endpoint subset
+ */
 @RestController
 @RequestMapping("/api/v1/layer-image")
 public class LayerImageController {
