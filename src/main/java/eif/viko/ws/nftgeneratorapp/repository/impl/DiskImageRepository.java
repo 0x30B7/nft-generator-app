@@ -28,6 +28,10 @@ public class DiskImageRepository implements ImageRepository {
     private static final String PATH_LAYERS = "./images/layers";
     private static final String PATH_NFT_ARTIFACTS = "./images/nft";
 
+    /**
+     * Updates the image id generator by traversing the image file directories
+     * and taking note of the existing images and their ids from their file names
+     */
     @PostConstruct
     public void onPostConstruct() {
         for (String path : Arrays.asList(PATH_LAYERS, PATH_NFT_ARTIFACTS)) {

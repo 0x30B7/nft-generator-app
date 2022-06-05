@@ -138,6 +138,9 @@ public class NFTMintingTask implements Runnable {
         return artifact;
     }
 
+    /**
+     * @return The final NFT image data
+     */
     public BufferedImage getFinalImage() {
         return finalImage;
     }
