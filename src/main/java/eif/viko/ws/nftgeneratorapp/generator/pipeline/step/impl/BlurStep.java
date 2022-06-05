@@ -3,7 +3,6 @@ package eif.viko.ws.nftgeneratorapp.generator.pipeline.step.impl;
 import eif.viko.ws.nftgeneratorapp.generator.pipeline.step.ImageProcessorStep;
 import eif.viko.ws.nftgeneratorapp.generator.pipeline.step.StepProperty;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class BlurStep extends ImageProcessorStep {

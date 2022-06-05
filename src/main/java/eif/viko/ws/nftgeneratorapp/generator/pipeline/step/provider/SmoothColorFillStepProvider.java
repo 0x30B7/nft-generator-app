@@ -35,5 +35,4 @@ public class SmoothColorFillStepProvider {
 
         return step;
     }
-
 }

@@ -6,10 +6,11 @@ import eif.viko.ws.nftgeneratorapp.generator.pipeline.step.impl.GrayscaleColorSt
 import java.util.Map;
 
 public class GrayscaleColorStepProvider {
+
     public static GrayscaleColorStep provide(Map<String, Object> properties, ProcessorStepResourceContext ctx) {
         GrayscaleColorStep step = new GrayscaleColorStep();
 
-        // no data to get
+        // no data to retrieve
 
         return step;
     }

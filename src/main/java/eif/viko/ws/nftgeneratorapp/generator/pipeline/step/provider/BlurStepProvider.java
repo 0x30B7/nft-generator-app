@@ -21,5 +21,4 @@ public class BlurStepProvider {
 
         return step;
     }
-
 }

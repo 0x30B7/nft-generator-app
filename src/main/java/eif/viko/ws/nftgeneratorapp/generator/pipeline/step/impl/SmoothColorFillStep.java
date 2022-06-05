@@ -32,5 +32,4 @@ public class SmoothColorFillStep extends ImageProcessorStep {
     public StepProperty<Color> getColorProperty() {
         return color;
     }
-
 }
