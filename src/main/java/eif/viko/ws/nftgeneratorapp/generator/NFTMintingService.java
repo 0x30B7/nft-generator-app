@@ -33,7 +33,7 @@ public class NFTMintingService {
 
     public void submit(Artifact artifact) {
         executorService.submit(new NFTMintingTask(TASK_ID_GENERATOR.getAndIncrement(), artifact, imageService,
-                new LinkedList<>(), Collections.emptyList(), NTMintingCallback.empty()));
+                new LinkedList<>(), Collections.emptyList(), NFTMintingCallback.empty()));
     }
 
 }

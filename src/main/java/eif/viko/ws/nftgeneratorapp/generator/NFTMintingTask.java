@@ -6,7 +6,6 @@ import eif.viko.ws.nftgeneratorapp.service.ImageService;
 import java.awt.image.BufferedImage;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Queue;
 
@@ -17,13 +16,13 @@ public class NFTMintingTask implements Runnable {
     private final ImageService imageService;
     private final Queue<List<ImageProcessorStep>> layerProcessorSteps;
     private final List<ImageProcessorStep> postProcessorSteps;
-    private final NTMintingCallback callback;
+    private final NFTMintingCallback callback;
 
     private BufferedImage finalImage;
 
     public NFTMintingTask(int taskId, Artifact artifact, ImageService imageService,
                           Queue<List<ImageProcessorStep>> layerProcessorSteps,
-                          List<ImageProcessorStep> postProcessorSteps, NTMintingCallback callback) {
+                          List<ImageProcessorStep> postProcessorSteps, NFTMintingCallback callback) {
         this.taskId = taskId;
         this.artifact = artifact;
         this.imageService = imageService;
@@ -48,7 +47,7 @@ public class NFTMintingTask implements Runnable {
             BufferedImage layerImage;
 
             try {
-                Optional<BufferedImage> optLayerImage = imageService.getImageById(orderedLayer.getImageId());
+                Optional<BufferedImage> optLayerImage = imageService.getLayerImageById(orderedLayer.getImageId());
 
                 if (optLayerImage.isEmpty()) {
                     callback.onError(new Exception("Could not load image id '" + orderedLayer.getImageId() + "'."));
@@ -109,13 +108,12 @@ public class NFTMintingTask implements Runnable {
         }
 
         try {
-            artifact.setArtifactImageId(imageService.saveImage(finalImage));
+            artifact.setArtifactImageId(imageService.saveNFTImage(finalImage));
             callback.onComplete(artifact);
             System.out.println("Artifact complete! (" + artifact.getArtifactImageId() + ".png)");
         } catch (Exception ex) {
             callback.onError(new Exception("Could not save artifact image: " + ex.getMessage()));
         }
-
     }
 
     public int getTaskId() {

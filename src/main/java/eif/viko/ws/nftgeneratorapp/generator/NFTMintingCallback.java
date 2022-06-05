@@ -1,9 +1,9 @@
 package eif.viko.ws.nftgeneratorapp.generator;
 
-public interface NTMintingCallback {
+public interface NFTMintingCallback {
 
-    static NTMintingCallback empty() {
-        return new NTMintingCallback() {
+    static NFTMintingCallback empty() {
+        return new NFTMintingCallback() {
             public void onComplete(Artifact artifact) { }
             public void onError(Exception ex) { }
         };
