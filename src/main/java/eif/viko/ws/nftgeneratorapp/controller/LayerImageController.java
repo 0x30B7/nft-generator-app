@@ -97,7 +97,7 @@ public class LayerImageController {
         return ResponseEntity.ok(imageService.getLayerImageIds()
                 .stream().map(next -> Map.of(
                         "id", next,
-                        "url", "/api/v1/fetch/" + next
+                        "url", "/api/v1/layer-image/fetch/" + next
                 )).collect(Collectors.toList()));
     }
 
