@@ -10,14 +10,22 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.function.IntFunction;
-import java.util.stream.Collectors;
 
+/**
+ * Class providing {@link ColorPalette} instances
+ */
 public class ColorPaletteProvider {
 
     @Autowired
     private static ColorPaletteService colorPaletteService;
 
+    /**
+     * Creates a color palette instance from the given properties
+     *
+     * @param properties The given properties
+     * @return If an error occurs during creation, namely if the color palette
+     * service fails to provide a result
+     */
     public static ColorPalette provide(Map<String, Object> properties) {
         ColorPalette resource = new ColorPalette();
 

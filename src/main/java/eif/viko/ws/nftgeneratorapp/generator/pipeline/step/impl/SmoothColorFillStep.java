@@ -6,10 +6,16 @@ import eif.viko.ws.nftgeneratorapp.generator.pipeline.step.StepProperty;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+/**
+ * Class representing a step where the image is dyed the provided color
+ */
 public class SmoothColorFillStep extends ImageProcessorStep {
 
     private final StepProperty<Color> color = new StepProperty<>(Color.class);
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void validateStep() throws IllegalStateException {
         if (!color.isSet()) {
@@ -17,6 +23,9 @@ public class SmoothColorFillStep extends ImageProcessorStep {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onProcess(BufferedImage image) {
         int red = this.color.get().getRed();
@@ -29,6 +38,11 @@ public class SmoothColorFillStep extends ImageProcessorStep {
         graphics.fillRect(0, 0, image.getWidth(), image.getHeight());
     }
 
+    /**
+     * Returns the color step property
+     *
+     * @return The color factor property
+     */
     public StepProperty<Color> getColorProperty() {
         return color;
     }

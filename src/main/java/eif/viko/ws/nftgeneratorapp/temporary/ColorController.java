@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
+/**
+ * Class containing endpoint for the <b>/api/v1/colors</b> endpoint subset
+ */
 @RestController
 @RequestMapping("/api/v1/colors")
 public class ColorController {

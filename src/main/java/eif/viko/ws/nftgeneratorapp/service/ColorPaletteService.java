@@ -15,6 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Service providing a 5 color matching palette from an API.
+ * See: <a href="http://colormind.io/api-access/">http://colormind.io/api-access/</a>
+ */
 @Service
 public class ColorPaletteService {
 
@@ -23,6 +27,9 @@ public class ColorPaletteService {
     private final ObjectReader objectReader = objectMapper.reader();
     private final ObjectWriter objectWriter = objectMapper.writer();
 
+    /**
+     * @return A randomized 5 color matching palette
+     */
     public List<Color> fetchPalette() {
         try {
             HttpClient client = HttpClient.newHttpClient();

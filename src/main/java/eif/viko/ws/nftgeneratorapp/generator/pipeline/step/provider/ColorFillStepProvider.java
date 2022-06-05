@@ -2,14 +2,25 @@ package eif.viko.ws.nftgeneratorapp.generator.pipeline.step.provider;
 
 import eif.viko.ws.nftgeneratorapp.generator.pipeline.resource.ProcessorStepResource;
 import eif.viko.ws.nftgeneratorapp.generator.pipeline.resource.ProcessorStepResourceContext;
+import eif.viko.ws.nftgeneratorapp.generator.pipeline.step.impl.BlurStep;
 import eif.viko.ws.nftgeneratorapp.generator.pipeline.step.impl.ColorFillStep;
 import eif.viko.ws.nftgeneratorapp.generator.util.ColorUtil;
 
 import java.awt.*;
 import java.util.Map;
 
+/**
+ * Class providing {@link ColorFillStep} instances
+ */
 public class ColorFillStepProvider {
 
+    /**
+     * Creates a color fill image processing step instance from the given properties
+     *
+     * @param properties The given properties
+     * @param ctx        The current processor step resource context
+     * @return The new processor step instance
+     */
     public static ColorFillStep provide(Map<String, Object> properties, ProcessorStepResourceContext ctx) {
         ColorFillStep step = new ColorFillStep();
 

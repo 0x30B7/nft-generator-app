@@ -4,13 +4,22 @@ import eif.viko.ws.nftgeneratorapp.generator.pipeline.step.ImageProcessorStep;
 
 import java.awt.image.BufferedImage;
 
+/**
+ * Class representing a step where the image is converted to its negative colors
+ */
 public class NegativeColorFillStep extends ImageProcessorStep {
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void validateStep() throws IllegalStateException {
         // nothing to validate
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onProcess(BufferedImage image) {
         int width = image.getWidth();
