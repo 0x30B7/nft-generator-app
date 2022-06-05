@@ -46,9 +46,7 @@ public class BlurStep extends ImageProcessorStep {
                         redAccumulator += (color >> 16) & 0xFF;
                         greenAccumulator += (color >> 8) & 0xFF;
                         blueAccumulator += (color >> 0) & 0xFF;
-
-                        if (blendAlpha.get()) alphaAccumulator += (color >> 24) & 0xFF;
-
+                        alphaAccumulator += (color >> 24) & 0xFF;
                         points++;
                     }
                 }
@@ -56,7 +54,7 @@ public class BlurStep extends ImageProcessorStep {
                 int redAvg = redAccumulator / points;
                 int greenAvg = greenAccumulator / points;
                 int blueAvg = blueAccumulator / points;
-                int alphaAvg = blendAlpha.get() ? alphaAccumulator / points : 255;
+                int alphaAvg = alphaAccumulator / points;
 
                 image.setRGB(i, j,
                         ((alphaAvg & 0xFF) << 24) |

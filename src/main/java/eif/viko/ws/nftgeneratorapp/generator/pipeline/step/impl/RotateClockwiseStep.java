@@ -28,17 +28,17 @@ public class RotateClockwiseStep extends ImageProcessorStep {
         double height = image.getHeight();
         int w = (int) (width * cos + height * sin);
         int h = (int) (width * sin + height * cos);
-        BufferedImage rotatedImage = new BufferedImage(w, h, image.getType());
-        Graphics2D graphics = rotatedImage.createGraphics();
+        BufferedImage originalImage = image;
+        image = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D graphics = image.createGraphics();
         double x = w / 2;
         double y = h / 2;
         AffineTransform affineTransform = AffineTransform.getRotateInstance(theta, x, y);
         x = (w - width) / 2;
         y = (h - height) / 2;
         affineTransform.translate(x, y);
-        graphics.drawRenderedImage(image, affineTransform);
+        graphics.drawRenderedImage(originalImage, affineTransform);
         graphics.dispose();
-        image = rotatedImage;
     }
 
     public StepProperty<Integer> getTimesProperty() {

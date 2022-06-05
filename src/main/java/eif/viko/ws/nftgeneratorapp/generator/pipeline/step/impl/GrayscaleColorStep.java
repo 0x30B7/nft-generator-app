@@ -15,9 +15,8 @@ public class GrayscaleColorStep extends ImageProcessorStep {
 
     @Override
     public void onProcess(BufferedImage image) {
-        BufferedImage grayImg = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        BufferedImage originalImage = image;
         ColorConvertOp op = new ColorConvertOp(ColorSpace.getInstance(ColorSpace.CS_GRAY), null);
-        op.filter(image, grayImg);
-        image = grayImg;
+        op.filter(originalImage, image);
     }
 }

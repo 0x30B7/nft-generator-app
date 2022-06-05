@@ -4,7 +4,7 @@ import eif.viko.ws.nftgeneratorapp.generator.pipeline.step.ImageProcessorStep;
 
 import java.awt.image.BufferedImage;
 
-public class HorizontalFlipStep extends ImageProcessorStep {
+public class NegativeColorFillStep extends ImageProcessorStep {
 
     @Override
     public void validateStep() throws IllegalStateException {
@@ -15,11 +15,21 @@ public class HorizontalFlipStep extends ImageProcessorStep {
     public void onProcess(BufferedImage image) {
         int width = image.getWidth();
         int height = image.getHeight();
-        BufferedImage originalImage = image;
-        image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                image.setRGB(x, (height-1)-y, originalImage.getRGB(x, y));
+                int pixel = image.getRGB(x, y);
+                int alpha = (pixel >> 24) & 0xff;
+                int red = (pixel >> 16) & 0xff;
+                int green = (pixel >> 8) & 0xff;
+                int blue = pixel & 0xff;
+
+                red = 255 - red;
+                green = 255 - green;
+                blue = 255 - blue;
+
+                pixel = (alpha << 24) | (red << 16) | (green << 8) | blue;
+                image.setRGB(x, y, pixel);
             }
         }
     }
