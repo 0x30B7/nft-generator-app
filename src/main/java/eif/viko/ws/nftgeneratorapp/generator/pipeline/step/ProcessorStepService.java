@@ -27,6 +27,7 @@ public class ProcessorStepService {
         providerRegistry.put("horizontal-flip", HorizontalFlipStepProvider::provide);
         providerRegistry.put("vertical-flip", VerticalFlipStepProvider::provide);
         providerRegistry.put("rotate-clockwise", RotateClockwiseStepProvider::provide);
+        providerRegistry.put("negative-color-fill-step", NegativeColorFillStepProvider::provide);
     }
 
     public ImageProcessorStep getStep(String type, Map<String, Object> properties, ProcessorStepResourceContext context) {

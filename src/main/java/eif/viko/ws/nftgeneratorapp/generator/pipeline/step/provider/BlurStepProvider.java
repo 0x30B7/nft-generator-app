@@ -14,10 +14,6 @@ public class BlurStepProvider {
         if (radius instanceof Number num) {
             step.getRadiusProperty().set(num.intValue());
         }
-        Object blendAlpha = properties.get("blendAlpha");
-        if (blendAlpha instanceof Boolean bool) {
-            step.getBlendAlphaProperty().set(bool.booleanValue());
-        }
 
         return step;
     }
