@@ -6,6 +6,9 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Repository providing image persistence functionality
+ */
 @Repository
 public interface ImageRepository {
 
