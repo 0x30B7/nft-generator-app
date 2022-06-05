@@ -7,10 +7,16 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
+/**
+ * Class representing a step where the image is rotated clockwise the provided number of times
+ */
 public class RotateClockwiseStep extends ImageProcessorStep {
 
     private final StepProperty<Integer> times = new StepProperty<>(Integer.class);
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void validateStep() throws IllegalStateException {
         if (!times.isSet()) {
@@ -18,6 +24,9 @@ public class RotateClockwiseStep extends ImageProcessorStep {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onProcess(BufferedImage image) {
         times.set(times.get() % 4);
@@ -41,6 +50,11 @@ public class RotateClockwiseStep extends ImageProcessorStep {
         graphics.dispose();
     }
 
+    /**
+     * Returns the times step property
+     *
+     * @return The times factor property
+     */
     public StepProperty<Integer> getTimesProperty() {
         return times;
     }

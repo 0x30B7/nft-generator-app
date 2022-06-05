@@ -5,10 +5,16 @@ import eif.viko.ws.nftgeneratorapp.generator.pipeline.step.StepProperty;
 
 import java.awt.image.BufferedImage;
 
+/**
+ * Class representing a step where the image is blurred according to the provided radius
+ */
 public class BlurStep extends ImageProcessorStep {
 
     private final StepProperty<Integer> radius = new StepProperty<>(Integer.class);
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void validateStep() throws IllegalStateException {
         if (!radius.isSet()) {
@@ -16,6 +22,9 @@ public class BlurStep extends ImageProcessorStep {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onProcess(BufferedImage image) {
         int maxXCoordinate = image.getWidth() - 1;
@@ -65,6 +74,11 @@ public class BlurStep extends ImageProcessorStep {
         return value < min ? min : value >= max ? max : value;
     }
 
+    /**
+     * Returns the radius step property
+     *
+     * @return The radius step property
+     */
     public StepProperty<Integer> getRadiusProperty() {
         return radius;
     }
