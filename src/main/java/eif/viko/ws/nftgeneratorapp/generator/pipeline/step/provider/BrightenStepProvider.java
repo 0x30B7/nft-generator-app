@@ -6,6 +6,7 @@ import eif.viko.ws.nftgeneratorapp.generator.pipeline.step.impl.BrightenStep;
 import java.util.Map;
 
 public class BrightenStepProvider {
+
     public static BrightenStep provide(Map<String, Object> properties, ProcessorStepResourceContext ctx) {
         BrightenStep step = new BrightenStep();
 

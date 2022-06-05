@@ -35,5 +35,4 @@ public class ColorFillStep extends ImageProcessorStep {
     public StepProperty<Color> getColorProperty() {
         return color;
     }
-
 }

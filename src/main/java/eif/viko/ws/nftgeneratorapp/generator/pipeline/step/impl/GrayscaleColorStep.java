@@ -1,9 +1,7 @@
 package eif.viko.ws.nftgeneratorapp.generator.pipeline.step.impl;
 
 import eif.viko.ws.nftgeneratorapp.generator.pipeline.step.ImageProcessorStep;
-import eif.viko.ws.nftgeneratorapp.generator.pipeline.step.StepProperty;
 
-import java.awt.*;
 import java.awt.color.ColorSpace;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorConvertOp;

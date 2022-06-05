@@ -24,6 +24,9 @@ public class ProcessorStepService {
         providerRegistry.put("blur", BlurStepProvider::provide);
         providerRegistry.put("brighten", BrightenStepProvider::provide);
         providerRegistry.put("grayscale-color", GrayscaleColorStepProvider::provide);
+        providerRegistry.put("horizontal-flip", HorizontalFlipStepProvider::provide);
+        providerRegistry.put("vertical-flip", VerticalFlipStepProvider::provide);
+        providerRegistry.put("rotate-clockwise", RotateClockwiseStepProvider::provide);
     }
 
     public ImageProcessorStep getStep(String type, Map<String, Object> properties, ProcessorStepResourceContext context) {

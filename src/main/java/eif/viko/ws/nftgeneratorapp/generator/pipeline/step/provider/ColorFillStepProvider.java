@@ -34,5 +34,4 @@ public class ColorFillStepProvider {
 
         return step;
     }
-
 }
