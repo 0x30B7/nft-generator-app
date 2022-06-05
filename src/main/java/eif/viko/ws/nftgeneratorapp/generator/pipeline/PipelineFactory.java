@@ -1,6 +1,5 @@
 package eif.viko.ws.nftgeneratorapp.generator.pipeline;
 
-import eif.viko.ws.nftgeneratorapp.controller.model.NFTLayer;
 import eif.viko.ws.nftgeneratorapp.controller.model.NFTProcessorStep;
 import eif.viko.ws.nftgeneratorapp.controller.model.NFTResource;
 import eif.viko.ws.nftgeneratorapp.generator.pipeline.resource.ProcessorStepResource;
@@ -9,18 +8,19 @@ import eif.viko.ws.nftgeneratorapp.generator.pipeline.resource.ProcessorStepReso
 import eif.viko.ws.nftgeneratorapp.generator.pipeline.step.ImageProcessorStep;
 import eif.viko.ws.nftgeneratorapp.generator.pipeline.step.ProcessorStepService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Map;
 
+@Component
 public class PipelineFactory {
 
     @Autowired
-    private static ProcessorStepResourceService resourceService;
+    private ProcessorStepResourceService resourceService;
     @Autowired
-    private static ProcessorStepService stepService;
+    private ProcessorStepService stepService;
 
-    public static ProcessorStepResourceContext createResourceContext(List<NFTResource> resources) throws Exception {
+    public ProcessorStepResourceContext createResourceContext(List<NFTResource> resources) throws Exception {
         ProcessorStepResourceContext.Builder resourceCtxBuilder = ProcessorStepResourceContext.builder();
 
         for (NFTResource entry : resources) {
@@ -42,7 +42,7 @@ public class PipelineFactory {
         return resourceCtxBuilder.build();
     }
 
-    public static ImageProcessorStep createProcessorStep(ProcessorStepResourceContext resourceContext,
+    public ImageProcessorStep createProcessorStep(ProcessorStepResourceContext resourceContext,
                                                                NFTProcessorStep step) throws Exception {
         ImageProcessorStep processorStep = stepService.getStep(step.getType(), step.getProperties(), resourceContext);
 

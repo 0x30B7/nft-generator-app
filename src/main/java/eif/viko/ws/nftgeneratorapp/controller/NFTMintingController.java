@@ -12,8 +12,11 @@ import eif.viko.ws.nftgeneratorapp.generator.pipeline.resource.ProcessorStepReso
 import eif.viko.ws.nftgeneratorapp.generator.pipeline.step.ImageProcessorStep;
 import eif.viko.ws.nftgeneratorapp.generator.pipeline.step.ProcessorStepService;
 import eif.viko.ws.nftgeneratorapp.service.ImageService;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -48,6 +51,8 @@ public class NFTMintingController {
     @Autowired
     @Qualifier("DiskImageService")
     private ImageService imageService;
+    @Autowired
+    private PipelineFactory pipelineFactory;
 
     @PostMapping("/mint")
     public ResponseEntity<?> mintNFT(@RequestBody NFTRequest body) {
@@ -56,8 +61,9 @@ public class NFTMintingController {
         ProcessorStepResourceContext resourceContext;
 
         try {
-            resourceContext = PipelineFactory.createResourceContext(body.getResources());
+            resourceContext = pipelineFactory.createResourceContext(body.getResources());
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.badRequest().build();
         }
 
@@ -66,8 +72,9 @@ public class NFTMintingController {
 
             for (NFTProcessorStep processorStep : layer.getProcessorSteps()) {
                 try {
-                    layerProcessorSteps.add(PipelineFactory.createProcessorStep(resourceContext, processorStep));
+                    layerProcessorSteps.add(pipelineFactory.createProcessorStep(resourceContext, processorStep));
                 } catch (Exception e) {
+                    e.printStackTrace();
                     return ResponseEntity.badRequest().build();
                 }
             }
@@ -93,6 +100,7 @@ public class NFTMintingController {
                 }
             });
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.internalServerError().build();
         }
 
@@ -130,8 +138,8 @@ public class NFTMintingController {
         return ResponseEntity.ok()
                 .headers(headers)
                 .contentLength(payloadSize)
-                .contentType(MediaType.parseMediaType("application/txt"))
-                .body(is);
+                .contentType(MediaType.IMAGE_PNG)
+                .body(new InputStreamResource(is));
     }
 
 }
