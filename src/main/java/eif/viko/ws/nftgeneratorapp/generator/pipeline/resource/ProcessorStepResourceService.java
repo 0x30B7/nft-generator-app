@@ -21,8 +21,8 @@ public class ProcessorStepResourceService {
         providerRegistry.put("color-palette", ColorPaletteProvider::provide);
     }
 
-    public <T, R extends ProcessorStepResource<T>> R getResource(String resourceName, Map<String, Object> properties) {
-        ProcessorStepResourceProvider provider = providerRegistry.get(resourceName);
+    public <T, R extends ProcessorStepResource<T>> R getResource(String type, Map<String, Object> properties) {
+        ProcessorStepResourceProvider provider = providerRegistry.get(type);
 
         if (provider == null)
             return null;

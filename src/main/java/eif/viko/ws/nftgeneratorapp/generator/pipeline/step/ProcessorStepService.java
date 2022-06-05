@@ -26,8 +26,8 @@ public class ProcessorStepService {
         providerRegistry.put("grayscale-color", GrayscaleColorStepProvider::provide);
     }
 
-    public ImageProcessorStep getStep(String stepName, Map<String, Object> properties, ProcessorStepResourceContext context) {
-        ProcessorStepProvider provider = providerRegistry.get(stepName);
+    public ImageProcessorStep getStep(String type, Map<String, Object> properties, ProcessorStepResourceContext context) {
+        ProcessorStepProvider provider = providerRegistry.get(type);
 
         if (provider == null)
             return null;

@@ -18,12 +18,14 @@ public class NFTMintingTask implements Runnable {
     private final List<ImageProcessorStep> postProcessorSteps;
     private final NFTMintingCallback callback;
 
+    private int finalImageId;
     private BufferedImage finalImage;
 
-    public NFTMintingTask(int taskId, Artifact artifact, ImageService imageService,
+    public NFTMintingTask(int taskId, int finalImageId, Artifact artifact, ImageService imageService,
                           Queue<List<ImageProcessorStep>> layerProcessorSteps,
                           List<ImageProcessorStep> postProcessorSteps, NFTMintingCallback callback) {
         this.taskId = taskId;
+        this.finalImageId = finalImageId;
         this.artifact = artifact;
         this.imageService = imageService;
         this.layerProcessorSteps = layerProcessorSteps;
@@ -108,7 +110,7 @@ public class NFTMintingTask implements Runnable {
         }
 
         try {
-            artifact.setArtifactImageId(imageService.saveNFTImage(finalImage));
+            artifact.setArtifactImageId(imageService.saveNFTImage(finalImage, finalImageId));
             callback.onComplete(artifact);
             System.out.println("Artifact complete! (" + artifact.getArtifactImageId() + ".png)");
         } catch (Exception ex) {
