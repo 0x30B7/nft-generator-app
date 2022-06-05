@@ -12,7 +12,7 @@ public class BrightenStepProvider {
 
         Object factor = properties.get("factor");
         if (factor instanceof Number num) {
-            step.getFactorProperty().set(num.intValue());
+            step.getFactorProperty().set(num.floatValue());
         }
 
         return step;
