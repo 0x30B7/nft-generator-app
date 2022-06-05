@@ -1,6 +1,8 @@
 package eif.viko.ws.nftgeneratorapp.service.impl;
 
+import eif.viko.ws.nftgeneratorapp.repository.ImageRepository;
 import eif.viko.ws.nftgeneratorapp.service.ImageService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -19,70 +22,37 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Qualifier("DiskImageService")
 public class DiskImageService implements ImageService {
 
-    private final AtomicInteger imageIdGenerator = new AtomicInteger(1);
+    @Autowired
+    private ImageRepository imageRepository;
 
-    @PostConstruct
-    public void onPostConstruct() {
-        File imageDir = new File("./images");
-
-        if (!imageDir.exists()) {
-            imageDir.mkdirs();
-            return;
-        }
-
-        File[] imageFiles = imageDir.listFiles();
-
-        if (imageFiles == null) {
-            return;
-        }
-
-        Arrays.stream(imageFiles).max(Comparator.naturalOrder()).ifPresent(file -> {
-            String name = file.getName()
-                    .replace(".png", "")
-                    .replace(".jpeg", "");
-
-            try {
-                int nameId = Integer.parseInt(name);
-                imageIdGenerator.set(nameId + 1);
-            } catch (Exception ignored) { }
-        });
+    @Override
+    public List<Integer> getLayerImageIds() throws Exception {
+        return imageRepository.getLayerImageIds();
     }
 
     @Override
-    public Optional<BufferedImage> getImageById(int imageId) throws Exception {
-        File imageDir = new File("./images");
-
-        if (!imageDir.exists()) {
-            imageDir.mkdirs();
-            return Optional.empty();
-        }
-
-        File imageFile = new File(imageDir, imageId + ".png");
-
-        if (!imageFile.exists()) {
-            imageFile = new File(imageDir, imageId + ".jpeg");
-
-            if (!imageFile.exists()) {
-                return Optional.empty();
-            }
-        }
-
-        return Optional.of(ImageIO.read(imageFile));
+    public Optional<BufferedImage> getLayerImageById(int imageId) throws Exception {
+        return imageRepository.getLayerImageById(imageId);
     }
 
     @Override
-    public int saveImage(BufferedImage image) throws Exception {
-        File imageDir = new File("./images");
+    public int saveLayerImage(BufferedImage image) throws Exception {
+        return imageRepository.saveLayerImage(image);
+    }
 
-        if (!imageDir.exists()) {
-            imageDir.mkdirs();
-        }
+    @Override
+    public List<Integer> getNFTImageIds() throws Exception {
+        return imageRepository.getNFTImageIds();
+    }
 
-        int id = imageIdGenerator.getAndIncrement();
-        File imageFile = new File(imageDir, id + ".png");
-        ImageIO.write(image, "png", imageFile);
+    @Override
+    public Optional<BufferedImage> getNFTImageById(int imageId) throws Exception {
+        return imageRepository.getNFTImageById(imageId);
+    }
 
-        return id;
+    @Override
+    public int saveNFTImage(BufferedImage image) throws Exception {
+        return imageRepository.saveNFTImage(image);
     }
 
 }

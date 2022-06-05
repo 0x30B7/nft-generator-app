@@ -1,10 +1,13 @@
-package eif.viko.ws.nftgeneratorapp.service;
+package eif.viko.ws.nftgeneratorapp.repository;
+
+import org.springframework.stereotype.Repository;
 
 import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.Optional;
 
-public interface ImageService {
+@Repository
+public interface ImageRepository {
 
     List<Integer> getLayerImageIds() throws Exception;
 
