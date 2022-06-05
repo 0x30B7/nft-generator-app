@@ -55,4 +55,14 @@ public class DiskImageService implements ImageService {
         return imageRepository.saveNFTImage(image);
     }
 
+    @Override
+    public int reserveImageId() throws Exception {
+        return imageRepository.reserveImageId();
+    }
+
+    @Override
+    public int saveNFTImage(BufferedImage image, int imageId) throws Exception {
+        return imageRepository.saveNFTImage(image, imageId);
+    }
+
 }

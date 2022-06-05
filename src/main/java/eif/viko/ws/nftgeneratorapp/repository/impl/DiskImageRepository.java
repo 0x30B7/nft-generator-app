@@ -93,6 +93,16 @@ public class DiskImageRepository implements ImageRepository {
         return saveImage(PATH_NFT_ARTIFACTS, image);
     }
 
+    @Override
+    public int reserveImageId() throws Exception {
+        return imageIdGenerator.getAndIncrement();
+    }
+
+    @Override
+    public int saveNFTImage(BufferedImage image, int imageId) throws Exception {
+        return saveImage(PATH_NFT_ARTIFACTS, image, imageId);
+    }
+
     public Optional<BufferedImage> getImageById(String path, int imageId) throws Exception {
         File imageDir = new File(path);
 
@@ -115,17 +125,20 @@ public class DiskImageRepository implements ImageRepository {
     }
 
     public int saveImage(String path, BufferedImage image) throws Exception {
+        return saveImage(path, image, imageIdGenerator.getAndIncrement());
+    }
+
+    public int saveImage(String path, BufferedImage image, int imageId) throws Exception {
         File imageDir = new File(path);
 
         if (!imageDir.exists()) {
             imageDir.mkdirs();
         }
 
-        int id = imageIdGenerator.getAndIncrement();
-        File imageFile = new File(imageDir, id + ".png");
+        File imageFile = new File(imageDir, imageId + ".png");
         ImageIO.write(image, "png", imageFile);
 
-        return id;
+        return imageId;
     }
 
     private List<Integer> getImageIds(String path) throws Exception {

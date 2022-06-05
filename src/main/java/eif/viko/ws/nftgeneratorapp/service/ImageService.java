@@ -18,4 +18,9 @@ public interface ImageService {
 
     int saveNFTImage(BufferedImage image) throws Exception;
 
+    int reserveImageId() throws Exception;
+
+    int saveNFTImage(BufferedImage image, int imageId) throws Exception;
+
+
 }
