@@ -3,6 +3,7 @@ package eif.viko.ws.nftgeneratorapp.controller;
 import eif.viko.ws.nftgeneratorapp.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,6 +20,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Map;
 import java.util.Optional;
@@ -88,8 +90,8 @@ public class LayerImageController {
         return ResponseEntity.ok()
                 .headers(headers)
                 .contentLength(payloadSize)
-                .contentType(MediaType.parseMediaType("application/txt"))
-                .body(is);
+                .contentType(MediaType.IMAGE_PNG)
+                .body(new InputStreamResource(is));
     }
 
     @GetMapping("/fetch/all")
