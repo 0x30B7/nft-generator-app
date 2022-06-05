@@ -3,10 +3,20 @@ package eif.viko.ws.nftgeneratorapp.generator.util;
 import java.awt.*;
 import java.util.List;
 
+/**
+ * Class containing a color parsing utility
+ */
 public class ColorUtil {
 
     private ColorUtil() { }
 
+    /**
+     * Attempts to parse a color from various forms of input, including an RGB numerical value,
+     * a hex, octal string-numerical value, a list of RGB (and optionally A) color component lists
+     *
+     * @param input The given color input
+     * @return The parsed color, or {@code null} if the parsing has failed
+     */
     public static Color parseColor(Object input) {
         if (input instanceof Number num) {
             return new Color(num.intValue());

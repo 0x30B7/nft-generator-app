@@ -7,6 +7,10 @@ import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Class storing {@link ProcessorStepResourceProvider} type resource providers and constructs
+ * {@link ProcessorStepResource} instances
+ */
 @Service
 public class ProcessorStepResourceService {
 
@@ -17,10 +21,23 @@ public class ProcessorStepResourceService {
         registerProviders();
     }
 
+    /**
+     * Registers all available image processor step resource providers
+     */
     public void registerProviders() {
         providerRegistry.put("color-palette", ColorPaletteProvider::provide);
     }
 
+    /**
+     * Queries an image processor step resource provider by its name and if found, constructs the resource using
+     * the given properties
+     *
+     * @param type       The type of the resource to create
+     * @param properties The given properties
+     * @param <T>        The data type of the value that the resource is to provide
+     * @param <R>        The data type of the resource implementation
+     * @return The created resource instance
+     */
     public <T, R extends ProcessorStepResource<T>> R getResource(String type, Map<String, Object> properties) {
         ProcessorStepResourceProvider provider = providerRegistry.get(type);
 

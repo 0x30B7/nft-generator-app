@@ -12,6 +12,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+/**
+ * Class containing NFT image processing pipeline component providers
+ */
 @Component
 public class NFTMintingComponentFactory {
 
@@ -20,6 +23,14 @@ public class NFTMintingComponentFactory {
     @Autowired
     private ProcessorStepService stepService;
 
+    /**
+     * Construct a resource context from the given resource descriptors
+     *
+     * @param resources The given resource descriptors
+     * @return The context containing the created resources
+     * @throws Exception if an error occurs during the process, such as the resource with
+     *                   the given type being not found or a resource property validation error
+     */
     public ProcessorStepResourceContext createResourceContext(List<NFTResource> resources) throws Exception {
         ProcessorStepResourceContext.Builder resourceCtxBuilder = ProcessorStepResourceContext.builder();
 
@@ -42,8 +53,17 @@ public class NFTMintingComponentFactory {
         return resourceCtxBuilder.build();
     }
 
+    /**
+     * Construct an image processor step from the given step descriptor and the available resources
+     *
+     * @param resourceContext The available resources
+     * @param step            The image processor step descriptor
+     * @return The created step instance
+     * @throws Exception if an error occurs during the process, such as the step with
+     *                   the given type being not found or a step property validation error
+     */
     public ImageProcessorStep createProcessorStep(ProcessorStepResourceContext resourceContext,
-                                                               NFTProcessorStep step) throws Exception {
+                                                  NFTProcessorStep step) throws Exception {
         ImageProcessorStep processorStep = stepService.getStep(step.getType(), step.getProperties(), resourceContext);
 
         if (processorStep == null) {

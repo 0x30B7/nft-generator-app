@@ -9,6 +9,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
+/**
+ * Class representing the entry point of the application
+ */
 @SpringBootApplication
 @OpenAPIDefinition
 public class NftGeneratorAppApplication {
@@ -24,11 +27,21 @@ public class NftGeneratorAppApplication {
         SpringApplication.run(NftGeneratorAppApplication.class, args);
     }
 
+    /**
+     * Constructs a shared {@link NFTMintingComponentFactory} instance, used for dependency injection
+     *
+     * @return The constructed instance
+     */
     @Bean
     public NFTMintingComponentFactory getNFTMintingComponentFactory() {
         return new NFTMintingComponentFactory();
     }
 
+    /**
+     * Constructs a shared {@link RestTemplate} instance, used for dependency injection
+     *
+     * @return The constructed instance
+     */
     @Bean
     public RestTemplate getRestTemplate() {
         return new RestTemplate();
