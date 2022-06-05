@@ -1,8 +1,7 @@
 package eif.viko.ws.nftgeneratorapp.generator.pipeline.step;
 
-
 import eif.viko.ws.nftgeneratorapp.generator.pipeline.resource.ProcessorStepResourceContext;
-import eif.viko.ws.nftgeneratorapp.generator.pipeline.step.provider.ColorFillStepProvider;
+import eif.viko.ws.nftgeneratorapp.generator.pipeline.step.provider.*;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -21,6 +20,10 @@ public class ProcessorStepService {
 
     public void registerProviders() {
         providerRegistry.put("color-fill", ColorFillStepProvider::provide);
+        providerRegistry.put("smooth-color-fill", SmoothColorFillStepProvider::provide);
+        providerRegistry.put("blur", BlurStepProvider::provide);
+        providerRegistry.put("brighten", BrightenStepProvider::provide);
+        providerRegistry.put("grayscale-color", GrayscaleColorStepProvider::provide);
     }
 
     public ImageProcessorStep getStep(String stepName, Map<String, Object> properties, ProcessorStepResourceContext context) {
