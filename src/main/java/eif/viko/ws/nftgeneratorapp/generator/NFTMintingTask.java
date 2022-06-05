@@ -1,28 +1,45 @@
 package eif.viko.ws.nftgeneratorapp.generator;
 
+import eif.viko.ws.nftgeneratorapp.generator.pipeline.step.ImageProcessorStep;
 import eif.viko.ws.nftgeneratorapp.service.ImageService;
 
 import java.awt.image.BufferedImage;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Queue;
 
 public class NFTMintingTask implements Runnable {
 
+    private final int taskId;
     private final Artifact artifact;
     private final ImageService imageService;
+    private final Queue<List<ImageProcessorStep>> layerProcessorSteps;
+    private final List<ImageProcessorStep> postProcessorSteps;
+    private final NTMintingCallback callback;
 
-    public NFTMintingTask(Artifact artifact, ImageService imageService) {
+    private BufferedImage finalImage;
+
+    public NFTMintingTask(int taskId, Artifact artifact, ImageService imageService,
+                          Queue<List<ImageProcessorStep>> layerProcessorSteps,
+                          List<ImageProcessorStep> postProcessorSteps, NTMintingCallback callback) {
+        this.taskId = taskId;
         this.artifact = artifact;
         this.imageService = imageService;
+        this.layerProcessorSteps = layerProcessorSteps;
+        this.postProcessorSteps = postProcessorSteps;
+        this.callback = callback;
     }
 
     @Override
     public void run() {
         System.out.println("Commencing NFT minting process...");
 
-        BufferedImage finalImage = new BufferedImage(artifact.getWidth(), artifact.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        // Initialize final NFT image
+        this.finalImage = new BufferedImage(artifact.getWidth(), artifact.getHeight(), BufferedImage.TYPE_INT_ARGB);
 
+        // Order layers according to the configured 'z' order
         List<ArtifactLayer> orderedLayers = artifact.getLayers().stream()
                 .sorted(Comparator.comparing(ArtifactLayer::getZOrder))
                 .toList();
@@ -34,17 +51,33 @@ public class NFTMintingTask implements Runnable {
                 Optional<BufferedImage> optLayerImage = imageService.getImageById(orderedLayer.getImageId());
 
                 if (optLayerImage.isEmpty()) {
-                    System.err.println("Layer id " + orderedLayer.getImageId() + " is not found.");
+                    callback.onError(new Exception("Could not load image id '" + orderedLayer.getImageId() + "'."));
                     continue;
                 }
 
                 layerImage = optLayerImage.get();
             } catch (Exception ex) {
-                ex.printStackTrace();
+                callback.onError(new Exception("An error occurred whilst loading layer image id '" + orderedLayer.getImageId() + "': " + ex.getMessage()));
                 continue;
             }
 
-            // TODO: per-layer post-processing?
+            List<ImageProcessorStep> processorSteps = layerProcessorSteps.poll();
+
+            if (processorSteps == null) {
+                callback.onError(new Exception("Internal issue - layer processor step list queue size and layer count mismatch"));
+                return;
+            }
+
+            int stepIndex = 0;
+            for (ImageProcessorStep step : processorSteps) {
+                try {
+                    step.onProcess(layerImage);
+                    stepIndex++;
+                } catch (Exception ex) {
+                    callback.onError(new Exception("Could not perform layer processor step for image id '" + orderedLayer.getImageId() + "', step " + stepIndex));
+                    return;
+                }
+            }
 
             int startX = orderedLayer.getXOffset();
             int startY = orderedLayer.getYOffset();
@@ -64,14 +97,37 @@ public class NFTMintingTask implements Runnable {
             }
         }
 
-        // TODO: final image post-processing
+        int stepIndex = 0;
+        for (ImageProcessorStep step : postProcessorSteps) {
+            try {
+                step.onProcess(finalImage);
+                stepIndex++;
+            } catch (Exception ex) {
+                callback.onError(new Exception("Could not perform final image processor step " + stepIndex));
+                return;
+            }
+        }
 
         try {
             artifact.setArtifactImageId(imageService.saveImage(finalImage));
+            callback.onComplete(artifact);
             System.out.println("Artifact complete! (" + artifact.getArtifactImageId() + ".png)");
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ex) {
+            callback.onError(new Exception("Could not save artifact image: " + ex.getMessage()));
         }
+
+    }
+
+    public int getTaskId() {
+        return taskId;
+    }
+
+    public Artifact getArtifact() {
+        return artifact;
+    }
+
+    public BufferedImage getFinalImage() {
+        return finalImage;
     }
 
 }

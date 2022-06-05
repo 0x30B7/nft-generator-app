@@ -6,11 +6,16 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class NFTMintingService {
+
+    private static final AtomicInteger TASK_ID_GENERATOR = new AtomicInteger(1);
 
     @Qualifier("DiskImageService")
     private final ImageService imageService;
@@ -27,7 +32,8 @@ public class NFTMintingService {
     }
 
     public void submit(Artifact artifact) {
-        executorService.submit(new NFTMintingTask(artifact, imageService));
+        executorService.submit(new NFTMintingTask(TASK_ID_GENERATOR.getAndIncrement(), artifact, imageService,
+                new LinkedList<>(), Collections.emptyList(), NTMintingCallback.empty()));
     }
 
 }
