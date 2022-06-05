@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class PipelineFactory {
+public class NFTMintingComponentFactory {
 
     @Autowired
     private ProcessorStepResourceService resourceService;
@@ -24,7 +24,7 @@ public class PipelineFactory {
         ProcessorStepResourceContext.Builder resourceCtxBuilder = ProcessorStepResourceContext.builder();
 
         for (NFTResource entry : resources) {
-            ProcessorStepResource<?> resource = resourceService.getResource(entry.getType(), entry.getOptions());
+            ProcessorStepResource<?> resource = resourceService.getResource(entry.getType(), entry.getProperties());
 
             if (resource == null) {
                 throw new Exception("Resource '" + entry.getType() + "' does not exist.");

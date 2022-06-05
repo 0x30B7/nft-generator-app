@@ -6,12 +6,12 @@ public class NFTResource {
 
     private String type;
     private int id;
-    private Map<String, Object> options;
+    private Map<String, Object> properties;
 
     public NFTResource(String type, int id, Map<String, Object> options) {
         this.type = type;
         this.id = id;
-        this.options = options;
+        this.properties = options;
     }
 
     public String getType() {
@@ -30,12 +30,8 @@ public class NFTResource {
         this.id = id;
     }
 
-    public Map<String, Object> getOptions() {
-        return options;
     }
 
-    public void setOptions(Map<String, Object> options) {
-        this.options = options;
     }
 
 }

@@ -7,13 +7,10 @@ import eif.viko.ws.nftgeneratorapp.generator.Artifact;
 import eif.viko.ws.nftgeneratorapp.generator.ArtifactLayer;
 import eif.viko.ws.nftgeneratorapp.generator.NFTMintingCallback;
 import eif.viko.ws.nftgeneratorapp.generator.NFTMintingService;
-import eif.viko.ws.nftgeneratorapp.generator.pipeline.PipelineFactory;
+import eif.viko.ws.nftgeneratorapp.generator.pipeline.NFTMintingComponentFactory;
 import eif.viko.ws.nftgeneratorapp.generator.pipeline.resource.ProcessorStepResourceContext;
 import eif.viko.ws.nftgeneratorapp.generator.pipeline.step.ImageProcessorStep;
-import eif.viko.ws.nftgeneratorapp.generator.pipeline.step.ProcessorStepService;
 import eif.viko.ws.nftgeneratorapp.service.ImageService;
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.InputStreamResource;
@@ -52,7 +49,7 @@ public class NFTMintingController {
     @Qualifier("DiskImageService")
     private ImageService imageService;
     @Autowired
-    private PipelineFactory pipelineFactory;
+    private NFTMintingComponentFactory pipelineFactory;
 
     @PostMapping("/mint")
     public ResponseEntity<?> mintNFT(@RequestBody NFTRequest body) {

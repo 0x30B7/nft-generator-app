@@ -1,7 +1,7 @@
 package eif.viko.ws.nftgeneratorapp;
 
 import eif.viko.ws.nftgeneratorapp.generator.NFTMintingService;
-import eif.viko.ws.nftgeneratorapp.generator.pipeline.PipelineFactory;
+import eif.viko.ws.nftgeneratorapp.generator.pipeline.NFTMintingComponentFactory;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -25,8 +25,8 @@ public class NftGeneratorAppApplication {
     }
 
     @Bean
-    public PipelineFactory getPipelineFactory() {
-        return new PipelineFactory();
+    public NFTMintingComponentFactory getNFTMintingComponentFactory() {
+        return new NFTMintingComponentFactory();
     }
 
     @Bean
