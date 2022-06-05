@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Queue;
 
+/**
+ * Class representing an NFT minting task
+ */
 public class NFTMintingTask implements Runnable {
 
     private final int taskId;
@@ -33,6 +36,9 @@ public class NFTMintingTask implements Runnable {
         this.callback = callback;
     }
 
+    /**
+     * Execute the NFT minting process
+     */
     @Override
     public void run() {
         System.out.println("Commencing NFT minting process...");
@@ -118,10 +124,16 @@ public class NFTMintingTask implements Runnable {
         }
     }
 
+    /**
+     * @return The id of the minting task
+     */
     public int getTaskId() {
         return taskId;
     }
 
+    /**
+     * @return the NFT minting operation model associated with the minting Task
+     */
     public Artifact getArtifact() {
         return artifact;
     }

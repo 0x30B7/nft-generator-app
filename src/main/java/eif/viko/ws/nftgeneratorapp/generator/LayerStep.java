@@ -4,6 +4,9 @@ import eif.viko.ws.nftgeneratorapp.generator.pipeline.step.ImageProcessorStep;
 
 import java.util.List;
 
+/**
+ * Class representing an NFT image layer's processing steps
+ */
 public class LayerStep {
 
     private final ArtifactLayer layer;
@@ -14,10 +17,16 @@ public class LayerStep {
         this.processorSteps = processorSteps;
     }
 
+    /**
+     * @return The layer associated with the processing steps
+     */
     public ArtifactLayer getLayer() {
         return layer;
     }
 
+    /**
+     * @return The processing steps associated with the layer
+     */
     public List<ImageProcessorStep> getProcessorSteps() {
         return processorSteps;
     }
