@@ -11,6 +11,12 @@ import eif.viko.ws.nftgeneratorapp.generator.pipeline.NFTMintingComponentFactory
 import eif.viko.ws.nftgeneratorapp.generator.pipeline.resource.ProcessorStepResourceContext;
 import eif.viko.ws.nftgeneratorapp.generator.pipeline.step.ImageProcessorStep;
 import eif.viko.ws.nftgeneratorapp.service.ImageService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.InputStreamResource;
@@ -54,6 +60,17 @@ public class NFTMintingController {
     @Autowired
     private NFTMintingComponentFactory pipelineFactory;
 
+    @Operation(summary = "Schedules an NFT to be minted")
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Successfully scheduled an NFT minting task"
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "An issue occurred with the validity of the to-be scheduled NFT task parameters"
+            )
+    })
     @PostMapping("/mint")
     public ResponseEntity<?> mintNFT(@RequestBody NFTRequest body) {
         List<ArtifactLayer> layers = new ArrayList<>();
@@ -108,6 +125,24 @@ public class NFTMintingController {
         return ResponseEntity.ok(Map.of("id", imageId));
     }
 
+    @Operation(summary = "Finds and provides an NFT image associated with the given image id")
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "NFT image was found successfully"
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Could not find the NFT image associated with the given id"
+            )
+    })
+    @Parameters({
+            @Parameter(
+                    in = ParameterIn.PATH,
+                    name = "id",
+                    description = "The id of the NFT image"
+            )
+    })
     @GetMapping("/fetch/{id}")
     public ResponseEntity<?> fetchNFT(@PathVariable int id) {
         InputStream is;

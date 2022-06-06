@@ -1,6 +1,14 @@
 package eif.viko.ws.nftgeneratorapp.controller;
 
 import eif.viko.ws.nftgeneratorapp.service.ImageService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.SchemaProperty;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.InputStreamResource;
@@ -36,6 +44,17 @@ public class LayerImageController {
     @Qualifier("DiskImageService")
     private ImageService imageService;
 
+    @Operation(summary = "Saves an uploaded layer image, associating it with an image reference id")
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Uploaded layer image uploaded successfully"
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Attempting to upload an unrecognized or unsupported image file"
+            )
+    })
     @PostMapping("/upload")
     @ResponseBody
     public ResponseEntity<?> uploadLayer(MultipartFile layerImage) {
@@ -61,6 +80,24 @@ public class LayerImageController {
         }
     }
 
+    @Operation(summary = "Finds and provides a layer image associated with the given image id")
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Layer image was found successfully"
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Could not find the layer image associated with the given id"
+            )
+    })
+    @Parameters({
+            @Parameter(
+                    in = ParameterIn.PATH,
+                    name = "id",
+                    description = "The id of the layer image"
+            )
+    })
     @GetMapping("/fetch/{id}")
     public ResponseEntity<?> fetchLayer(@PathVariable int id) {
         InputStream is;
@@ -96,6 +133,17 @@ public class LayerImageController {
                 .body(new InputStreamResource(is));
     }
 
+    @Operation(summary = "Finds and provides the ids of all existing layer images with their resource URIs")
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Layer image was found successfully"
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Could not find the layer image associated with the given id"
+            )
+    })
     @GetMapping("/fetch/all")
     public ResponseEntity<?> fetchAllLayers() throws Exception {
         return ResponseEntity.ok(imageService.getLayerImageIds()

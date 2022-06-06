@@ -1,6 +1,12 @@
 package eif.viko.ws.nftgeneratorapp.temporary;
 
 import eif.viko.ws.nftgeneratorapp.service.ColorPaletteService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +26,13 @@ public class ColorController {
     @Autowired
     private ColorPaletteService colorPaletteService;
 
+    @Operation(summary = "Fetches a color palette of " + ColorPaletteService.MAX_COLORS_PER_FETCH + " colors")
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Successfully created the color palette"
+            )
+    })
     @GetMapping
     public ResponseEntity<?> fetchColor() {
         return ResponseEntity.ok(colorPaletteService.fetchPalette().stream()
