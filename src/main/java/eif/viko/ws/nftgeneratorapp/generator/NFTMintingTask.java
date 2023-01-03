@@ -88,19 +88,25 @@ public class NFTMintingTask implements Runnable {
 
             int startX = orderedLayer.getXOffset();
             int startY = orderedLayer.getYOffset();
-            int endX = Math.min(startX + orderedLayer.getWidth(), finalImage.getWidth());
-            int endY = Math.min(startY + orderedLayer.getHeight(), finalImage.getHeight());
 
-            for (int x = startX, xx = 0; x < endX; x++, xx++) {
-                for (int y = startY, yy = 0; y < endY; y++, yy++) {
-                    int color = layerImage.getRGB(xx, yy);
+            try {
+                for (int x = startX, xx = 0; xx < layerImage.getWidth(); x++, xx++) {
+                    if (x >= finalImage.getWidth()) continue;
 
-                    if (color == 0) {
-                        continue;
+                    for (int y = startY, yy = 0; yy < layerImage.getHeight(); y++, yy++) {
+                        if (y >= finalImage.getHeight()) continue;
+
+                        int color = layerImage.getRGB(xx, yy);
+
+                        if (color == 0) {
+                            continue;
+                        }
+
+                        finalImage.setRGB(x, y, color);
                     }
-
-                    finalImage.setRGB(x, y, color);
                 }
+            } catch (Exception ex) {
+                callback.onError(new Exception("Could not apply layer " + orderedLayer.getImageId(), ex));
             }
         }
 
